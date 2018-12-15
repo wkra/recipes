@@ -9,11 +9,12 @@ export default new Vuex.Store({
     meals: [],
     filters: {
       text: "",
-      category: "",
-      area: "",
-      tags: ""
+      category: [],
+      area: [],
+      tags: []
     },
-    favourite: []
+    favourite: [],
+    isDesktop: false
   },
 
   getters: {
@@ -25,15 +26,30 @@ export default new Vuex.Store({
     },
     getFilteredMeals(state) {
       return state.meals.filter((el) => {
+
+        let isElementMatch = (element, filter) => {
+          let isMatch = false;
+
+          if (filter.length > 0) {
+            if (element !== null) {
+              filter.forEach((filterEl) => {
+                if (element.indexOf(filterEl) > -1){
+                  isMatch = true;
+                  // TODO WSZYSTKIE ELEMENTY MUSZĄ SPEŁNIAĆ TRUE
+                } 
+              })
+            }
+          } else {
+            isMatch = true;
+          }
+          return isMatch;
+        };
+
         let isMatchText = state.filters.text === "" ? true : el.strMeal.toLowerCase().indexOf(state.filters.text.toLowerCase()) > -1,
-          isMatchCategory = state.filters.category === "" ? true : el.strCategory.toLowerCase().indexOf(state.filters.category.toLowerCase()) > -1,
-          isMatchArea = state.filters.area === "" ? true : el.strArea.toLowerCase().indexOf(state.filters.area.toLowerCase()) > -1,
-          isMatchTags;
-        if (state.filters.tags === "") {
-          isMatchTags = true
-        } else {
-          isMatchTags = el.strTags === null ? false : el.strTags.toLowerCase().indexOf(state.filters.tags.toLowerCase()) > -1;
-        }
+          isMatchCategory = isElementMatch(el.strCategory,state.filters.category),
+          isMatchArea = isElementMatch( el.strArea, state.filters.area),
+          isMatchTags = isElementMatch( el.strTags, state.filters.tags);
+
         return isMatchText && isMatchCategory && isMatchArea && isMatchTags;
       })
     },
@@ -41,9 +57,20 @@ export default new Vuex.Store({
       return state.favourite;
     },
     getFavouriteMeals(state) {
-      return state.meals.filter((el) => {
-        return state.favourite.idMeal.indexOf(el.idMeal) > -1;
-      })
+      if (state.favourite.length > 0) {
+        return state.meals.filter((el) => {
+          return state.favourite.indexOf(el.idMeal) > -1;
+        })
+      }
+      else {
+        return state.favourite;
+      }
+    },
+    getIsDesktop(state) {
+      return state.isDesktop;
+    },
+    getFilters (state) {
+      return state.filters;
     }
   },
 
@@ -52,7 +79,10 @@ export default new Vuex.Store({
       state.meals.push(meal);
     },
     setFilter(state, [type, text]) {
-      state.filters[type] = text;
+      state.filters[type].push(text);
+    },
+    removeFilter(state, [type, index]){
+      state.filters[type].splice(index, 1);
     },
     setFavourite(state, data) {
       state.favourite = data
@@ -65,6 +95,9 @@ export default new Vuex.Store({
     },
     removeFavourite(state, index) {
       state.favourite.splice(index, 1);
+    },
+    setIsDesktop (state, isDesktop) {
+      state.isDesktop = isDesktop;
     }
   },
 
@@ -76,7 +109,6 @@ export default new Vuex.Store({
           res.data.meals.forEach(el => {
             commit("addMeal", el);
           });
-          console.log(res.data);
         });
     },
     initLocalStorage({commit}) {
@@ -99,6 +131,17 @@ export default new Vuex.Store({
       if (index !== -1) {
         commit('removeFavourite', index);
         commit('setLocalFavourite');
+      }
+    },
+    setFilter({state, commit}, [type, text]){
+      if (state.filters[type].indexOf(text) === -1) {
+        commit('setFilter', [type, text]);
+      }
+    },
+    removeFilter({state, commit}, [type, text]){
+      const index = state.filters[type].indexOf(text);
+      if (index > -1) {
+        commit('removeFilter', [type,index]);
       }
     }
   }

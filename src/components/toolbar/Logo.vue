@@ -19,11 +19,11 @@ export default {
 
   span {
     width: 40px;
-    height: 3px;
     background-color: #494729;
     display: block;
     margin: 5px 0;
-    border-radius: 3px;
+    border-radius: 4px;
+    border: 2px solid #494729;
   }
 }
 
