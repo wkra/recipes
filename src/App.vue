@@ -1,28 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Toolbar />
+    <Aside />
+    <Content />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Content from './components/Content.vue'
+import Toolbar from './components/Toolbar.vue'
+import Aside from './components/Aside.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Content,
+    Toolbar,
+    Aside
+  },
+  created() {
+    this.$store.dispatch('fetchData');
+    this.$store.dispatch('initLocalStorage');
   }
 }
 </script>
 
 <style lang="less">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
