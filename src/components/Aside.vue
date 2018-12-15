@@ -1,6 +1,11 @@
 <template>
   <aside class="aside">
-    <div class="aside__btn" @click="toggleActive">Filter</div>
+    <div class="aside__btn-wrapper">
+      <div class="aside__btn" @click="toggleActive">
+        <span v-if="!asideActive">FILTER</span>
+        <span v-if="asideActive">X</span>
+      </div>
+    </div>
     <div class="aside__content" :class="{'aside__content--active': asideActive}">
       <the-filter 
         :title="'Category'"
@@ -11,13 +16,13 @@
       <the-filter 
         :title="'Area'"
         :elements="filteredArea"
-        :activeFilters="getFilters.area"
+        :activeFilter="getFilters.area"
         @setFilter="setFilter"
         @removeFilter="removeFilter"/>
       <the-filter 
         :title="'Tags'"
         :elements="filteredTags"
-        :activeFilters="getFilters.tags"
+        :activeFilter="getFilters.tags"
         @setFilter="setFilter"
         @removeFilter="removeFilter"/>
     </div>
@@ -44,25 +49,16 @@ export default {
       return this.$store.getters.getFilteredMeals;
     },
     filteredCategory() {
-      return this.getFilteredMeals.reduce((prev, curr) => {
-        if (prev.indexOf(curr.strCategory) === -1){
-          prev.push(curr.strCategory)
-        } 
-        return prev
-      }, [])
+      return this.filterElements(this.getFilteredMeals, 'strCategory');
     },
     filteredArea() {
-      return this.getFilteredMeals.reduce((prev, curr) => {
-        if (prev.indexOf(curr.strArea) === -1){
-          prev.push(curr.strArea)
-        } 
-        return prev
-      }, [])
+      return this.filterElements(this.getFilteredMeals, 'strArea');
     },
     filteredTags() {
       return this.getFilteredMeals.reduce((prev, curr) => {
         if (curr.strTags !== null) {
           let tags = curr.strTags.split(",");
+
           tags.forEach((el) => {
             if (prev.indexOf(el) === -1){
               prev.push(el)
@@ -72,9 +68,6 @@ export default {
         return prev
       }, [])
     },
-    isDesktop() {
-      return this.$store.getters.isDesktop;
-    },
     getFilters(){
       return this.$store.getters.getFilters;
     }
@@ -82,18 +75,20 @@ export default {
   methods: {
     setFilter ([type, text]) {
       this.$store.dispatch('setFilter', [type, text]);
-      if (!this.isDesktop) {
-        this.toggleActive();
-      }
     },
     removeFilter([type, text]) {
       this.$store.dispatch('removeFilter', [type, text]);
-      if (!this.isDesktop) {
-        this.toggleActive();
-      }
     },
     toggleActive () {
       this.asideActive = !this.asideActive;
+    },
+    filterElements (meals, filterName) {
+      return meals.reduce((prev, curr) => {
+        if (prev.indexOf(curr[filterName]) === -1){
+          prev.push(curr[filterName])
+        } 
+        return prev
+      }, [])
     }
   }
 }
@@ -101,13 +96,21 @@ export default {
 
 <style lang="less" scoped>
 .aside {
+  &__btn-wrapper{
+    background-color: #d2d2d2;
+    position: relative;
+    z-index: 40;
+    padding: 10px;
+  }
+
   &__btn {
     text-transform: uppercase;
     border: 1px solid #656565;
-    padding: 10px;
+    padding: 5px 10px;
     border-radius: 6px;
-    background-color: #d2d2d2;
+    cursor: pointer;
   }
+
   &__content {
     width: 100%;
     background-color: #d2d2d2;
@@ -126,12 +129,12 @@ export default {
 @media only screen and (min-width: 768px) {
   .aside {
     width: 250px;
-    display: inline-block;
     float: left;
 
     &__btn {
       display: none;
     }
+
     &__content {
       left: 0;
       position: relative;
@@ -139,6 +142,4 @@ export default {
     }
   }
 }
-
 </style>
-

@@ -14,7 +14,8 @@ export default new Vuex.Store({
       tags: []
     },
     favourite: [],
-    isDesktop: false
+    isDesktop: false,
+    activeRecipe: ''
   },
 
   getters: {
@@ -28,24 +29,23 @@ export default new Vuex.Store({
       return state.meals.filter((el) => {
 
         let isElementMatch = (element, filter) => {
-          let isMatch = false;
+          let isMatch = [];
 
           if (filter.length > 0) {
             if (element !== null) {
               filter.forEach((filterEl) => {
-                if (element.indexOf(filterEl) > -1){
-                  isMatch = true;
-                  // TODO WSZYSTKIE ELEMENTY MUSZĄ SPEŁNIAĆ TRUE
+                if (element.indexOf(filterEl) === -1){
+                  isMatch.push(false);
                 } 
               })
+            } else {
+              isMatch.push(false);
             }
-          } else {
-            isMatch = true;
           }
-          return isMatch;
+          return isMatch.indexOf(false) === -1;
         };
 
-        let isMatchText = state.filters.text === "" ? true : el.strMeal.toLowerCase().indexOf(state.filters.text.toLowerCase()) > -1,
+        let isMatchText = el.strMeal.toLowerCase().indexOf(state.filters.text.toLowerCase()) > -1,
           isMatchCategory = isElementMatch(el.strCategory,state.filters.category),
           isMatchArea = isElementMatch( el.strArea, state.filters.area),
           isMatchTags = isElementMatch( el.strTags, state.filters.tags);
@@ -66,17 +66,23 @@ export default new Vuex.Store({
         return state.favourite;
       }
     },
-    getIsDesktop(state) {
+    getIsDesktop (state) {
       return state.isDesktop;
     },
     getFilters (state) {
       return state.filters;
+    },
+    activeRecipe (state) {
+      return state.activeRecipe
     }
   },
 
   mutations: {
     addMeal(state, meal) {
       state.meals.push(meal);
+    },
+    setTextFilter (state, text) {
+      state.filters.text = text;
     },
     setFilter(state, [type, text]) {
       state.filters[type].push(text);
@@ -98,6 +104,9 @@ export default new Vuex.Store({
     },
     setIsDesktop (state, isDesktop) {
       state.isDesktop = isDesktop;
+    },
+    setActiveRecipe(state, id) {
+      state.activeRecipe = id;
     }
   },
 

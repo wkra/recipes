@@ -5,6 +5,7 @@
       <div class="filter__element" 
         v-for="element in elements"
         :key="element"
+        :class="{'filter__element--active': activeFilter.indexOf(element) > -1}"
         >
         <span class="filter__btn"
           @click="emitRemoveFiltere(element)">x</span>
@@ -28,7 +29,8 @@ export default {
       type: Array
     },
     activeFilter: {
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
   methods: {
@@ -37,6 +39,9 @@ export default {
     },
     emitRemoveFiltere(text) {
       this.$emit('removeFilter', [this.title.toLowerCase(), text]);
+    },
+    isElementActive(element) {
+      return this.activeFilter.indexOf(element) > -1;
     }
   }
 }
@@ -69,6 +74,10 @@ export default {
     display: inline-block;
     padding: 5px;
     letter-spacing: 1px;
+
+    &--active {
+      background-color: #8dde8d;
+    }
   }
 
   &__btn {

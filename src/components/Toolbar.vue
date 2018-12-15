@@ -1,36 +1,40 @@
 <template>
   <nav class="toolbar">
-    <Logo />
-    <Input 
-     :textFilter="textFilter"
-     @setFilter="setFilter"/>
-     <Favourite />
+    <Logo/>
+    <Input :textFilter="textFilter" 
+      @setTextFilter="setTextFilter"/>
+    <Favourite 
+      :favourite="favouriteMeals"
+      @setTextFilter="setTextFilter"/>
   </nav>
 </template>
 
 <script>
-import Input from './toolbar/Input.vue'
-import Favourite from './toolbar/Favourite.vue'
-import Logo from './toolbar/Logo.vue'
+import Input from "./toolbar/Input.vue";
+import Favourite from "./toolbar/Favourite.vue";
+import Logo from "./toolbar/Logo.vue";
 
 export default {
-  name: 'Toolbar',
+  name: "Toolbar",
   components: {
     Input,
     Favourite,
     Logo
   },
   computed: {
-    textFilter (){
+    textFilter() {
       return this.$store.getters.getTextFilter;
+    },
+    favouriteMeals() {
+      return this.$store.getters.getFavouriteMeals;
     }
   },
   methods: {
-    setFilter ([type, text]) {
-      this.$store.commit("setFilter", [type, text]);
+    setTextFilter(text) {
+      this.$store.commit("setTextFilter", text);
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -40,8 +44,6 @@ export default {
   display: flex;
   align-items: center;
   padding: 10px 20px;
+  position: relative;
 }
-
 </style>
-
-

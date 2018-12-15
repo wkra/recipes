@@ -12,9 +12,9 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .logo {
-  width: 40px;
+  width: 46px;
   height: 30px;
 
   span {
@@ -24,6 +24,12 @@ export default {
     margin: 5px 0;
     border-radius: 4px;
     border: 2px solid #494729;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .logo {
+    width: 250px;
   }
 }
 

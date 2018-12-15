@@ -1,43 +1,57 @@
 <template>
   <div class="meal">
-    <div class="meal__img" :style="{backgroundImage: `url(${thumb})`}">
-      <div
-        class="meal__favourite"
-        :class="{'meal__favourite--active': isFavourite}"
-        @click="favouriteHandler"
-      ></div>
+    <div class="meal__box" @click="setActiveRecipe(meal.idMeal)">
+      <div class="meal__img" :style="{backgroundImage: `url(${meal.strMealThumb})`}">
+        <div
+          class="meal__favourite"
+          :class="{'meal__favourite--active': isFavourite}"
+          @click="favouriteHandler(meal.idMeal)"
+        ></div>
+      </div>
+      <div class="meal__name-wrapper">
+        <div class="meal__name" v-text="meal.strMeal"></div>
+      </div>
     </div>
-    <div class="meal__name-wrapper">
-      <div class="meal__name" v-text="name"></div>
-    </div>
+    <Recipe 
+      :meal="meal"/>
   </div>
 </template>
 
 <script>
+import Recipe from './Recipe.vue'
+
 export default {
-  name: 'Meal',
+  name: "Meal",
+  components: {
+    Recipe
+  },
   props: {
-    thumb: {
-      type: String
-    },
-    name: {
-      type: String
-    },
-    idMeal: {
-      type: String
-    },
     isFavourite: {
       type: Boolean,
       default: false
+    },
+    meal: {
+      type: Object,
+      require: true
+    },
+    activeRecipe: {
+      type: String,
+      default: ''
     }
   },
   methods: {
-    favouriteHandler() {
+    favouriteHandler(idMeal) {
       if (this.isFavourite) {
-        this.$emit("removeFavourite", this.idMeal);
+        this.$emit("removeFavourite", idMeal);
       } else {
-        this.$emit("addFavourite", this.idMeal);
+        this.$emit("addFavourite", idMeal);
       }
+    },
+    setActiveRecipe (idMeal) {
+      if (this.activeRecipe === idMeal) {
+        idMeal = '';
+      }
+      this.$emit("setActiveRecipe", idMeal);
     }
   }
 };
@@ -79,7 +93,7 @@ export default {
     position: absolute;
     width: 20px;
     height: 20px;
-    background-image: url("../../assets/img/heart_white4.svg");
+    background-image: url("../../assets/img/heart_white.svg");
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -99,11 +113,6 @@ export default {
       transform: scale(0.9);
       transition: all 0s;
     }
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .meal {
   }
 }
 </style>

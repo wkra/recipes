@@ -2,12 +2,12 @@
   <section class="content">
       <meal v-for="meal in meals" 
         :key="meal.idMeal"
-        :thumb="meal.strMealThumb"
-        :name="meal.strMeal"
-        :idMeal="meal.idMeal"
+        :meal="meal"
         :isFavourite="isFavourite(meal.idMeal)"
+        :activeRecipe="activeRecipe"
         @addFavourite="addFavourite"
         @removeFavourite="removeFavourite"
+        @setActiveRecipe="setActiveRecipe"
       />
   </section>
 </template>
@@ -26,6 +26,9 @@ export default {
     },
     favourite () {
       return this.$store.getters.getFavourite;
+    },
+    activeRecipe () {
+      return this.$store.getters.activeRecipe;
     }
   },
   methods: {
@@ -37,8 +40,10 @@ export default {
     },
     removeFavourite (idMeal) {
       this.$store.dispatch('removeFavourite', idMeal);
+    },
+    setActiveRecipe(idMeal){
+      this.$store.commit("setActiveRecipe", idMeal);
     }
-
   }
 }
 </script>
@@ -49,6 +54,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  position: relative;
 }
 
 @media only screen and (min-width: 768px) {
