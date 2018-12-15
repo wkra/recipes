@@ -1,18 +1,22 @@
 <template>
-  <div>
-    <the-filter 
-      :title="'Category'"
-      :elements="getFilteredCategory"
-      @setFilter="setFilter"/>
-    <the-filter 
-      :title="'Area'"
-      :elements="getFilteredArea"
-      @setFilter="setFilter"/>
-    <the-filter 
-      :title="'Tags'"
-      :elements="getFilteredTags"
-      @setFilter="setFilter"/>
-  </div>
+  <aside class="aside">
+    <div class="aside__btn">Filter</div>
+    <div class="aside__content" :class="{'aside__content--active': asideActive}">
+      <the-filter 
+        :title="'Category'"
+        :elements="getFilteredCategory"
+        @setFilter="setFilter"/>
+      <the-filter 
+        :title="'Area'"
+        :elements="getFilteredArea"
+        @setFilter="setFilter"/>
+      <the-filter 
+        :title="'Tags'"
+        :elements="getFilteredTags"
+        @setFilter="setFilter"/>
+    </div>
+    
+  </aside>
   
 </template>
 
@@ -23,6 +27,11 @@ export default {
   name: 'Aside',
   components: {
     TheFilter
+  },
+  data () {
+    return {
+      asideActive: false
+    }
   },
   computed: {
     getFilteredMeals (){
@@ -61,12 +70,36 @@ export default {
   methods: {
     setFilter ([type, text]) {
       this.$store.commit("setFilter", [type, text]);
+    },
+    toggleActive () {
+      this.asideActive = !this.asideActive;
     }
   }
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+.aside {
+  
+
+  &__btn {
+    text-transform: uppercase;
+    border: 2px solid #656565;
+    padding: 10px;
+    border-radius: 6px;
+  }
+  &__content {
+    width: 250px;
+    background-color: #d2d2d2;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .aside {
+    &__btn {
+      display: none;
+    }
+  }
+}
 
 </style>
 

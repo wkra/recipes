@@ -95,6 +95,7 @@ export default new Vuex.Store({
     },
     removeFavourite({state, commit}, idMeal) {
       const index = state.favourite.indexOf(idMeal);
+
       if (index !== -1) {
         commit('removeFavourite', index);
         commit('setLocalFavourite');

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="filter">
     <div class="filter__title" v-text="title"></div>
     <div class="filter__box">
       <div class="filter__element" 
