@@ -8,8 +8,8 @@
 
 <script>
 export default {
-  name: 'Logo'
-}
+  name: "Logo"
+};
 </script>
 
 <style lang="less" scoped>
@@ -32,6 +32,4 @@ export default {
     width: 250px;
   }
 }
-
 </style>
-

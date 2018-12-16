@@ -9,7 +9,7 @@
         class="favourite-element"
         v-for="fav in favourite"
         :key="fav.idMeal"
-        @click="initSearch(fav.strMeal)"
+        @click="initFavourite(fav.strMeal)"
       >
         <span class="favourite-element__img" :style="{backgroundImage: `url(${fav.strMealThumb})`}"></span>
         <span class="favourite-element__name" v-text="fav.strMeal"></span>
@@ -35,8 +35,9 @@ export default {
     toggleActive() {
       this.isActive = !this.isActive;
     },
-    initSearch(value) {
-      this.$emit("setTextFilter", value.toLowerCase());
+    initFavourite(value) {
+      this.$emit("favouriteHandler", value.toLowerCase());
+      this.toggleActive();
     }
   }
 };
@@ -89,6 +90,7 @@ export default {
     top: 5px;
   }
 }
+
 .favourite-element {
   text-align: left;
   display: flex;
@@ -100,6 +102,7 @@ export default {
     display: block;
     margin: 20px 0;
   }
+
   &__img {
     width: 45px;
     height: 30px;
@@ -109,15 +112,22 @@ export default {
     display: inline-block;
     margin-right: 20px;
   }
+
   &__name {
     width: 183px;
+
+    &:hover {
+      font-weight: bold;
+    }
   }
 }
+
 @media only screen and (min-width: 768px) {
   .favourite {
     width: 300px;
     padding: 6px 25px;
   }
+  
   .favourite-btn {
     &__text {
       display: inline-block;

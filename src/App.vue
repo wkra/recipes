@@ -21,7 +21,7 @@ export default {
   created() {
     this.$store.dispatch("fetchData");
     this.$store.dispatch("initLocalStorage");
-    window.addEventListener('resize', this.isDesktop)
+    window.addEventListener("resize", this.isDesktop);
     this.isDesktop();
   },
   methods: {
@@ -30,20 +30,18 @@ export default {
       if (window.innerWidth > 767) {
         isDesktop = true;
       } else {
-        isDesktop = false
+        isDesktop = false;
       }
       this.$store.commit("setIsDesktop", isDesktop);
     }
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.isDesktop)
-  },
+    window.removeEventListener("resize", this.isDesktop);
+  }
 };
 </script>
 
 <style lang="less">
- @import './assets/css/reset.css';
- @import './assets/css/styleguide.less';
-
-
+@import "./assets/css/reset.css";
+@import "./assets/css/styleguide.less";
 </style>

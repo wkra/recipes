@@ -1,11 +1,8 @@
 <template>
   <nav class="toolbar">
     <Logo/>
-    <Input :textFilter="textFilter" 
-      @setTextFilter="setTextFilter"/>
-    <Favourite 
-      :favourite="favouriteMeals"
-      @setTextFilter="setTextFilter"/>
+    <Input :textFilter="textFilter" @setTextFilter="setTextFilter"/>
+    <Favourite :favourite="favouriteMeals" @favouriteHandler="favouriteHandler"/>
   </nav>
 </template>
 
@@ -31,7 +28,10 @@ export default {
   },
   methods: {
     setTextFilter(text) {
-      this.$store.commit("setTextFilter", text);
+      this.$store.dispatch("setTextFilter", text);
+    },
+    favouriteHandler(text) {
+      this.$store.dispatch("favouriteHandler", text);
     }
   }
 };

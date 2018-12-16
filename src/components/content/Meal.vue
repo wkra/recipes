@@ -1,24 +1,24 @@
 <template>
-  <div class="meal">
-    <div class="meal__box" @click="setActiveRecipe(meal.idMeal)">
-      <div class="meal__img" :style="{backgroundImage: `url(${meal.strMealThumb})`}">
-        <div
-          class="meal__favourite"
-          :class="{'meal__favourite--active': isFavourite}"
-          @click="favouriteHandler(meal.idMeal)"
-        ></div>
+  <div class="meal" :class="{'meal--inactive': isInactive}">
+    <div class="meal__box-wrapper">
+      <div class="meal__box" @click="setActiveRecipe(meal.idMeal)">
+        <div class="meal__img" :style="{backgroundImage: `url(${meal.strMealThumb})`}"></div>
+        <div class="meal__name-wrapper">
+          <div class="meal__name" v-text="meal.strMeal"></div>
+        </div>
       </div>
-      <div class="meal__name-wrapper">
-        <div class="meal__name" v-text="meal.strMeal"></div>
-      </div>
+      <div
+        class="meal__favourite"
+        :class="{'meal__favourite--active': isFavourite}"
+        v-on:click.self="favouriteHandler"
+      ></div>
     </div>
-    <Recipe 
-      :meal="meal"/>
+    <Recipe v-if="activeRecipe === meal.idMeal" :meal="meal"/>
   </div>
 </template>
 
 <script>
-import Recipe from './Recipe.vue'
+import Recipe from "./Recipe.vue";
 
 export default {
   name: "Meal",
@@ -36,20 +36,26 @@ export default {
     },
     activeRecipe: {
       type: String,
-      default: ''
+      default: ""
+    }
+  },
+  computed: {
+    isInactive() {
+      return this.activeRecipe.length && this.activeRecipe !== this.meal.idMeal;
     }
   },
   methods: {
-    favouriteHandler(idMeal) {
+    favouriteHandler(e) {
+      e.preventDefault();
       if (this.isFavourite) {
-        this.$emit("removeFavourite", idMeal);
+        this.$emit("removeFavourite", this.meal.idMeal);
       } else {
-        this.$emit("addFavourite", idMeal);
+        this.$emit("addFavourite", this.meal.idMeal);
       }
     },
-    setActiveRecipe (idMeal) {
+    setActiveRecipe(idMeal) {
       if (this.activeRecipe === idMeal) {
-        idMeal = '';
+        idMeal = "";
       }
       this.$emit("setActiveRecipe", idMeal);
     }
@@ -59,11 +65,33 @@ export default {
 
 <style lang="less" scoped>
 .meal {
-  border: 2px solid #d8d8d8;
-  border-radius: 5px;
-  margin: 20px;
-  width: 300px;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 300px;
   position: relative;
+
+  &--inactive {
+    opacity: 0.5;
+  }
+
+  &__box-wrapper {
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      .meal {
+        &__img {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  &__box {
+    border: 2px solid #d8d8d8;
+    border-radius: 5px;
+    overflow: hidden;
+  }
 
   &__img {
     background-repeat: no-repeat;
@@ -71,7 +99,7 @@ export default {
     background-position: center;
     width: 100%;
     height: 200px;
-    position: relative;
+    transition: all 0.4s;
   }
 
   &__name-wrapper {
@@ -81,6 +109,9 @@ export default {
     height: 70px;
     align-items: center;
     padding: 10px;
+    background-color: #fff;
+    position: relative;
+    z-index: 10;
   }
 
   &__name {
@@ -97,7 +128,7 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
-    bottom: 15px;
+    top: 170px;
     right: 10px;
     transition: all 0.2s;
 
@@ -113,6 +144,13 @@ export default {
       transform: scale(0.9);
       transition: all 0s;
     }
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .meal {
+    position: static;
+    margin: 20px;
   }
 }
 </style>

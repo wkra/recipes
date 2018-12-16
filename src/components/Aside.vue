@@ -7,96 +7,97 @@
       </div>
     </div>
     <div class="aside__content" :class="{'aside__content--active': asideActive}">
-      <the-filter 
+      <the-filter
         :title="'Category'"
         :elements="filteredCategory"
         :activeFilter="getFilters.category"
         @setFilter="setFilter"
-        @removeFilter="removeFilter"/>
-      <the-filter 
+        @removeFilter="removeFilter"
+      />
+      <the-filter
         :title="'Area'"
         :elements="filteredArea"
         :activeFilter="getFilters.area"
         @setFilter="setFilter"
-        @removeFilter="removeFilter"/>
-      <the-filter 
+        @removeFilter="removeFilter"
+      />
+      <the-filter
         :title="'Tags'"
         :elements="filteredTags"
         :activeFilter="getFilters.tags"
         @setFilter="setFilter"
-        @removeFilter="removeFilter"/>
+        @removeFilter="removeFilter"
+      />
     </div>
-    
   </aside>
-  
 </template>
 
 <script>
-import TheFilter from './aside/TheFilter.vue'
+import TheFilter from "./aside/TheFilter.vue";
 
 export default {
-  name: 'Aside',
+  name: "Aside",
   components: {
     TheFilter
   },
-  data () {
+  data() {
     return {
       asideActive: false
-    }
+    };
   },
   computed: {
-    getFilteredMeals (){
+    getFilteredMeals() {
       return this.$store.getters.getFilteredMeals;
     },
     filteredCategory() {
-      return this.filterElements(this.getFilteredMeals, 'strCategory');
+      return this.filterElements(this.getFilteredMeals, "strCategory");
     },
     filteredArea() {
-      return this.filterElements(this.getFilteredMeals, 'strArea');
+      return this.filterElements(this.getFilteredMeals, "strArea");
     },
     filteredTags() {
       return this.getFilteredMeals.reduce((prev, curr) => {
         if (curr.strTags !== null) {
           let tags = curr.strTags.split(",");
 
-          tags.forEach((el) => {
-            if (prev.indexOf(el) === -1){
-              prev.push(el)
+          tags.forEach(el => {
+            if (prev.indexOf(el) === -1) {
+              prev.push(el);
             }
-          })
+          });
         }
-        return prev
-      }, [])
+        return prev;
+      }, []);
     },
-    getFilters(){
+    getFilters() {
       return this.$store.getters.getFilters;
     }
   },
   methods: {
-    setFilter ([type, text]) {
-      this.$store.dispatch('setFilter', [type, text]);
+    setFilter([type, text]) {
+      this.$store.dispatch("setFilter", [type, text]);
     },
     removeFilter([type, text]) {
-      this.$store.dispatch('removeFilter', [type, text]);
+      this.$store.dispatch("removeFilter", [type, text]);
     },
-    toggleActive () {
+    toggleActive() {
       this.asideActive = !this.asideActive;
     },
-    filterElements (meals, filterName) {
+    filterElements(meals, filterName) {
       return meals.reduce((prev, curr) => {
-        if (prev.indexOf(curr[filterName]) === -1){
-          prev.push(curr[filterName])
-        } 
-        return prev
-      }, [])
+        if (prev.indexOf(curr[filterName]) === -1) {
+          prev.push(curr[filterName]);
+        }
+        return prev;
+      }, []);
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
 .aside {
-  &__btn-wrapper{
+  &__btn-wrapper {
     background-color: #d2d2d2;
     position: relative;
     z-index: 40;
@@ -118,7 +119,7 @@ export default {
     position: absolute;
     left: -120vw;
     transition: all 0.2s;
-    box-shadow: 5px 5px 20px 0 rgba(0,0,0,0.3);
+    box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.3);
     z-index: 30;
 
     &--active {
@@ -126,6 +127,7 @@ export default {
     }
   }
 }
+
 @media only screen and (min-width: 768px) {
   .aside {
     width: 250px;

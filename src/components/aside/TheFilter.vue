@@ -1,26 +1,25 @@
 <template>
   <div class="filter">
-    <div class="filter__title" v-text="title"></div>
+    <div class="filter__title">
+      <h2 v-text="title"></h2>
+    </div>
     <div class="filter__box">
-      <div class="filter__element" 
+      <div
+        class="filter__element"
         v-for="element in elements"
         :key="element"
         :class="{'filter__element--active': activeFilter.indexOf(element) > -1}"
-        >
-        <span class="filter__btn"
-          @click="emitRemoveFiltere(element)">x</span>
-        <span class="filter__text"
-          v-text="element"
-          @click="emitSetFilter(element)"></span>
+      >
+        <span class="filter__btn" @click="emitRemoveFiltere(element)">x</span>
+        <span class="filter__text" v-text="element" @click="emitSetFilter(element)"></span>
       </div>
     </div>
   </div>
-  
 </template>
 
 <script>
 export default {
-  name: 'TheFilter',
+  name: "TheFilter",
   props: {
     title: {
       type: String
@@ -35,16 +34,16 @@ export default {
   },
   methods: {
     emitSetFilter(text) {
-      this.$emit('setFilter', [this.title.toLowerCase(), text]);
+      this.$emit("setFilter", [this.title.toLowerCase(), text]);
     },
     emitRemoveFiltere(text) {
-      this.$emit('removeFilter', [this.title.toLowerCase(), text]);
+      this.$emit("removeFilter", [this.title.toLowerCase(), text]);
     },
     isElementActive(element) {
       return this.activeFilter.indexOf(element) > -1;
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -89,6 +88,4 @@ export default {
     cursor: pointer;
   }
 }
-
 </style>
-
