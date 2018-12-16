@@ -64,6 +64,8 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
+    transform: scale(1.2);
+    cursor: pointer;
 
     &:active {
       &::before {
