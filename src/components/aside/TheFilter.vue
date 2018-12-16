@@ -9,9 +9,10 @@
         v-for="element in elements"
         :key="element"
         :class="{'filter__element--active': activeFilter.indexOf(element) > -1}"
+        @click="emitSetFilter(element)"
       >
-        <span class="filter__btn" @click="emitRemoveFiltere(element)">x</span>
-        <span class="filter__text" v-text="element" @click="emitSetFilter(element)"></span>
+        <!-- <span class="filter__btn">x</span> -->
+        <span class="filter__text" v-text="element"></span>
       </div>
     </div>
   </div>
@@ -34,10 +35,11 @@ export default {
   },
   methods: {
     emitSetFilter(text) {
-      this.$emit("setFilter", [this.title.toLowerCase(), text]);
-    },
-    emitRemoveFiltere(text) {
-      this.$emit("removeFilter", [this.title.toLowerCase(), text]);
+      if (this.activeFilter.indexOf(text) > -1) {
+        this.$emit("removeFilter", [this.title.toLowerCase(), text]);
+      } else {
+        this.$emit("setFilter", [this.title.toLowerCase(), text]);
+      }
     },
     isElementActive(element) {
       return this.activeFilter.indexOf(element) > -1;
@@ -71,8 +73,20 @@ export default {
     text-transform: uppercase;
     margin: 5px;
     display: inline-block;
-    padding: 5px;
+    padding: 5px 5px 5px 20px;
     letter-spacing: 1px;
+    cursor: pointer;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background-color: #656565;
+      left: 8px;
+      top: 13px;
+    }
 
     &--active {
       background-color: #8dde8d;
@@ -81,11 +95,6 @@ export default {
 
   &__btn {
     padding: 0 15px 0 5px;
-    cursor: pointer;
-  }
-
-  &__text {
-    cursor: pointer;
   }
 }
 </style>

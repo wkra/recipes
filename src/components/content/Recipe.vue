@@ -1,25 +1,22 @@
 <template>
   <div class="recipe">
-    <div class="recipe__video" v-if="meal.strYoutube.length">
-      <video-theme :videoUrl="meal.strYoutube"/>
+    <div class="recipe__video" v-if="videoUrl.length">
+      <video-theme :videoUrl="videoUrl"/>
     </div>
     <div class="recipe__descriptions">
       <div class="recipe-description">
         <h2 class="recipe-description__title">Instructions</h2>
-        <div class="recipe-description__content" v-text="meal.strInstructions"></div>
+        <div class="recipe-description__content" v-text="instructions"></div>
       </div>
       <div class="recipe-description">
         <h2 class="recipe-description__title">Ingredients + Measure</h2>
         <div class="recipe-description__content">
           <div
             class="recipe-description__product"
-            v-for="(product, index) in products"
-            :key="meal.idMeal + index"
+            v-for="(ingredient, index) in ingredients"
+            :key="idMeal + index"
           >
-            <span v-text="product.ingredient"></span>
-            <span v-if="product.measure !== ''">-
-              <span v-text="product.measure"></span>
-            </span>
+            <span v-text="ingredient"></span>
           </div>
         </div>
       </div>
@@ -36,32 +33,17 @@ export default {
     VideoTheme
   },
   props: {
-    meal: {
-      type: Object,
-      require: true
-    }
-  },
-  computed: {
-    products() {
-      const products = [],
-        strIngredient = "strIngredient",
-        strMeasure = "strMeasure";
-
-      let i = 1,
-        ingredient = this.meal[strIngredient + i];
-
-      while (typeof ingredient !== "undefined") {
-        if (ingredient !== "") {
-          products.push({
-            ingredient: ingredient,
-            measure: this.meal[strMeasure + i]
-          });
-        }
-        i += 1;
-        ingredient = this.meal[strIngredient + i];
-      }
-
-      return products;
+    idMeal: {
+      type: String
+    },
+    instructions:  {
+      type: String
+    },
+    ingredients: {
+      type: Array
+    },
+    videoUrl: {
+      type: String
     }
   }
 };
