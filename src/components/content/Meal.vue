@@ -13,13 +13,14 @@
         v-on:click.self="favouriteHandler"
       ></div>
     </div>
-    <Recipe v-if="activeRecipe === meal.idMeal" 
+    <Recipe
+      v-if="activeRecipe === meal.idMeal"
       :meal="meal"
       :instructions="meal.strInstructions"
       :ingredients="this.ingredients(meal)"
       :videoUrl="meal.strYoutube"
       :idMeal="meal.idMeal"
-      />
+    />
   </div>
 </template>
 
@@ -72,13 +73,13 @@ export default {
 
       let i = 1,
         ingredient = meal[strIngredient + i];
-        
+
       while (typeof ingredient !== "undefined") {
         if (ingredient !== "") {
           if (meal[strMeasure + i]) {
-            ingredient += ' - ' + meal[strMeasure + i]
+            ingredient += " - " + meal[strMeasure + i];
           }
-          ingredients.push(ingredient)
+          ingredients.push(ingredient);
         }
         i += 1;
         ingredient = meal[strIngredient + i];
@@ -91,18 +92,26 @@ export default {
 
 <style lang="less" scoped>
 .meal {
-  margin: 20px auto;
+  margin: 20px;
   width: 100%;
   max-width: 300px;
   position: relative;
 
+  transition: all 0.5s;
+  display: inline-block;
+
   &--inactive {
-    opacity: 0.5;
+    .meal {
+      &__box-wrapper {
+        opacity: 0.5;
+      }
+    }
   }
 
   &__box-wrapper {
     position: relative;
     cursor: pointer;
+    transition: all 0.5s;
 
     &:hover {
       .meal {

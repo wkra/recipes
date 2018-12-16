@@ -110,6 +110,7 @@ export default {
     padding: 5px 10px;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 12px;
   }
 
   &__content {

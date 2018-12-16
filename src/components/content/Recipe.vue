@@ -36,7 +36,7 @@ export default {
     idMeal: {
       type: String
     },
-    instructions:  {
+    instructions: {
       type: String
     },
     ingredients: {
@@ -72,6 +72,7 @@ export default {
 
 .recipe-description {
   padding: 20px;
+  text-align: left;
 
   &__title {
     margin-bottom: 20px;
