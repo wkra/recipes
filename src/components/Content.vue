@@ -54,7 +54,7 @@ export default {
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: left;
   position: relative;
   flex-direction: column;
 }

@@ -7,7 +7,7 @@ const getters = {
   },
   getFilteredMeals(state) {
     return state.meals.filter(el => {
-      let isElementMatch = (element, filter) => {
+      const isElementMatch = (element, filter) => {
         let isMatch = [];
 
         if (filter.length > 0) {
