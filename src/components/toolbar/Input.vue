@@ -61,6 +61,7 @@ export default {
     margin: 0 80px 0 20px;
     width: 100%;
   }
+  
   &__clear {
     position: absolute;
     right: 4px;

@@ -50,7 +50,6 @@ export default {
   font-size: 12px;
   padding: 6px 20px;
   height: 32px;
-
   width: 55px;
   margin: 0 20px;
   text-align: center;

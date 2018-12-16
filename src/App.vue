@@ -21,22 +21,6 @@ export default {
   created() {
     this.$store.dispatch("fetchData");
     this.$store.dispatch("initLocalStorage");
-    window.addEventListener("resize", this.isDesktop);
-    this.isDesktop();
-  },
-  methods: {
-    isDesktop() {
-      let isDesktop;
-      if (window.innerWidth > 767) {
-        isDesktop = true;
-      } else {
-        isDesktop = false;
-      }
-      this.$store.commit("setIsDesktop", isDesktop);
-    }
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.isDesktop);
   }
 };
 </script>

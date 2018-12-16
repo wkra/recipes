@@ -35,10 +35,9 @@ export default {
   computed: {
     thumbnailUrl() {
       const thumbnailUrlTemplate =
-          "https://img.youtube.com/vi/%%/hqdefault.jpg",
-        videoHash = this.videoUrl.split("?v=")[1];
+        "https://img.youtube.com/vi/%%/hqdefault.jpg";
 
-      return thumbnailUrlTemplate.replace("%%", videoHash);
+      return thumbnailUrlTemplate.replace("%%", this.videoHash);
     }
   },
   methods: {
@@ -85,7 +84,7 @@ export default {
       transition: all 0.1s;
     }
   }
-  
+
   &__frame {
     height: 200px;
   }
