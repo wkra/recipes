@@ -11,7 +11,6 @@
         :class="{'filter__element--active': activeFilter.indexOf(element) > -1}"
         @click="emitSetFilter(element)"
       >
-        <!-- <span class="filter__btn">x</span> -->
         <span class="filter__text" v-text="element"></span>
       </div>
     </div>
