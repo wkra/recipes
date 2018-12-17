@@ -7,7 +7,6 @@ const state = {
     tags: []
   },
   favourite: [],
-  isDesktop: false,
   activeRecipe: ""
 };
 

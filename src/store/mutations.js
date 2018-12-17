@@ -26,9 +26,6 @@ const mutations = {
   removeFavourite(state, index) {
     state.favourite.splice(index, 1);
   },
-  setIsDesktop(state, isDesktop) {
-    state.isDesktop = isDesktop;
-  },
   setActiveRecipe(state, id) {
     state.activeRecipe = id;
   }

@@ -8,7 +8,7 @@ const getters = {
   getFilteredMeals(state) {
     return state.meals.filter(el => {
       const isElementMatch = (element, filter) => {
-        let isMatch = [];
+        const isMatch = [];
 
         if (filter.length > 0) {
           if (element !== null) {
@@ -24,13 +24,8 @@ const getters = {
         return isMatch.indexOf(false) === -1;
       };
 
-      let isMatchText =
-          el.strMeal.toLowerCase().indexOf(state.filters.text.toLowerCase()) >
-          -1,
-        isMatchCategory = isElementMatch(
-          el.strCategory,
-          state.filters.category
-        ),
+      const isMatchText = el.strMeal.toLowerCase().indexOf(state.filters.text.toLowerCase()) > -1,
+        isMatchCategory = isElementMatch( el.strCategory, state.filters.category ),
         isMatchArea = isElementMatch(el.strArea, state.filters.area),
         isMatchTags = isElementMatch(el.strTags, state.filters.tags);
 
@@ -41,16 +36,9 @@ const getters = {
     return state.favourite;
   },
   getFavouriteMeals(state) {
-    if (state.favourite.length > 0) {
-      return state.meals.filter(el => {
-        return state.favourite.indexOf(el.idMeal) > -1;
-      });
-    } else {
-      return state.favourite;
-    }
-  },
-  getIsDesktop(state) {
-    return state.isDesktop;
+    return state.meals.filter(el => {
+      return state.favourite.indexOf(el.idMeal) > -1;
+    });
   },
   getFilters(state) {
     return state.filters;

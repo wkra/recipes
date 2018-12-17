@@ -9,7 +9,7 @@
     <div class="video-theme__player" v-if="videoActive">
       <iframe
         class="video-theme__frame"
-        :src="'https://www.youtube.com/embed/' + videoHash + '?autoplay=1'"
+        :src="youTubeUrl"
         frameborder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
@@ -28,22 +28,21 @@ export default {
   },
   data() {
     return {
-      videoActive: false,
-      videoHash: this.videoUrl.split("?v=")[1]
+      videoActive: false
     };
   },
   computed: {
     thumbnailUrl() {
-      const thumbnailUrlTemplate =
-        "https://img.youtube.com/vi/%%/hqdefault.jpg";
-
-      return thumbnailUrlTemplate.replace("%%", this.videoHash);
+      return `https://img.youtube.com/vi/${this.videoHash}/hqdefault.jpg`;
+    },
+    youTubeUrl() {
+      return `https://www.youtube.com/embed/${this.videoHash}?autoplay=1`;
+    },
+    videoHash() {
+      return this.videoUrl.split("?v=")[1];
     }
   },
   methods: {
-    getHash() {
-      return this.videoUrl.split("?v=")[1];
-    },
     setActive() {
       this.videoActive = true;
     }
